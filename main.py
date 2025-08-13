@@ -1,6 +1,7 @@
 import crypto_algs
 import crypto_algs.rsa as RSA
 import crypto_algs.notDES as DES
+from cryptography.fernet import Fernet
 
 mn = crypto_algs.MersenneTwister()
 
@@ -25,3 +26,15 @@ print("Original message:", message)
 print("Secret key: ", key)
 print("Encoded message: ", encoding)
 print("Decoded message: ", decoded)
+
+# Test Crypto manager
+from crypto_algs.crypto_manager import CryptoManager
+
+man = CryptoManager(Fernet, 'CRC', 64)
+# man.setFunctions(DES.encrypt, DES.decrypt)
+# man.setKey(b'password')
+
+message = b"Crypto manager"
+print("Original message:", message)
+print("Encoded message: ", ciph := man.encrypt(message))
+print("Decoded message: ", man.decrypt(ciph))

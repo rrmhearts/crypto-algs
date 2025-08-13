@@ -60,22 +60,10 @@ def decrypt(ciphertext, key):
     return plaintext #[:-1] if plaintext[-1] == ord('_') else plaintext
         
 def xor_bytes(byte_str1, byte_str2):
+     byte_str1, byte_str2 = bytes(byte_str1), bytes(byte_str2)
      # Simplest concept of DES
      # Requires both strings to be the same length
      return bytes(a ^ b for a, b in zip(byte_str1, byte_str2))
-
-def simple_encrypt(message, key):
-    random_bytes = random.randbytes(len(message))
-    message = xor_bytes(message, random_bytes) + random_bytes
-    zipped = zip(message, cycle(key)) if len(message) > len(key) else zip(cycle(message), key)
-    # XOR the message with the secret key
-    return bytes(a ^ b for a, b in zipped)
-
-def simple_decrypt(ciphertext, key):
-    zipped = zip(ciphertext, cycle(key)) if len(message) > len(key) else zip(cycle(message), key)
-    message_salt = bytes(a ^ b for a, b in zipped)
-    half_n = int(len(message_salt)/2)
-    return xor_bytes(message_salt[0:half_n], message_salt[half_n:])
 
 if __name__ == "__main__":
     message = b'We have a secret to tell you: hello world.'
